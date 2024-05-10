@@ -99,7 +99,6 @@
 
     <!-- 프로필 영역 끝 부분 -->
 
-    <!-- [방 만들기] 버튼 시작 부분 -->
     <TextView
         android:id="@+id/profileNameTextView"
         android:layout_width="273dp"
@@ -114,124 +113,6 @@
         app:layout_constraintStart_toStartOf="@+id/profileCircularImageView"
         app:layout_constraintTop_toTopOf="@+id/profileCircularImageView"
         app:layout_constraintVertical_bias="0.897" />
-
-    <Button
-        android:id="@+id/createRoomButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/rectangle_mid_button"
-        app:layout_constraintBottom_toBottomOf="@+id/view_mid_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_top_1"
-        app:layout_constraintVertical_bias="0.391" />
-
-    <ImageView
-        android:id="@+id/createRoomImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/createRoomButton"
-        app:layout_constraintEnd_toEndOf="@+id/createRoomButton"
-        app:layout_constraintStart_toStartOf="@+id/createRoomButton"
-        app:layout_constraintTop_toTopOf="@+id/createRoomButton"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/baseline_add_box_24" />
-
-    <TextView
-        android:id="@+id/createRoomTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="방 만들기"
-        android:textColor="@color/primary_container_on"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/createRoomButton"
-        app:layout_constraintEnd_toEndOf="@+id/createRoomButton"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="@+id/createRoomButton"
-        app:layout_constraintTop_toTopOf="@+id/createRoomButton"
-        app:layout_constraintVertical_bias="0.911" />
-    <!-- [방 만들기] 버튼 끝 부분 -->
-
-    <!-- [방 방 찾기] 버튼 시작 부분 -->
-    <Button
-        android:id="@+id/enterRoomButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/rectangle_mid_button"
-        app:layout_constraintBottom_toBottomOf="@+id/view_mid_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_top_1"
-        app:layout_constraintVertical_bias="0.402" />
-
-    <ImageView
-        android:id="@+id/enterRoomImageView"
-        android:layout_width="69dp"
-        android:layout_height="66dp"
-        app:layout_constraintBottom_toBottomOf="@+id/enterRoomButton"
-        app:layout_constraintEnd_toEndOf="@+id/enterRoomButton"
-        app:layout_constraintHorizontal_bias="0.451"
-        app:layout_constraintStart_toStartOf="@+id/enterRoomButton"
-        app:layout_constraintTop_toTopOf="@+id/enterRoomButton"
-        app:layout_constraintVertical_bias="0.176"
-        app:srcCompat="@drawable/baseline_add_to_home_screen_24" />
-
-    <TextView
-        android:id="@+id/enterRoomTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="방 들어가기"
-        android:textColor="@color/primary_container_on"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/enterRoomButton"
-        app:layout_constraintEnd_toEndOf="@+id/enterRoomButton"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="@+id/enterRoomButton"
-        app:layout_constraintTop_toTopOf="@+id/enterRoomButton"
-        app:layout_constraintVertical_bias="0.911" />
-    <!-- [방 찾기] 버튼 끝 부분 -->
-
-    <!-- [방 방 찾기] 버튼 시작 부분 -->
-    <Button
-        android:id="@+id/findRoomButton"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/rectangle_mid_button"
-        app:layout_constraintBottom_toBottomOf="@+id/view_mid_1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.868"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_top_1"
-        app:layout_constraintVertical_bias="0.402" />
-
-    <ImageView
-        android:id="@+id/findRoomImageView"
-        android:layout_width="69dp"
-        android:layout_height="66dp"
-        app:layout_constraintBottom_toBottomOf="@+id/findRoomButton"
-        app:layout_constraintEnd_toEndOf="@+id/findRoomButton"
-        app:layout_constraintHorizontal_bias="0.451"
-        app:layout_constraintStart_toStartOf="@+id/findRoomButton"
-        app:layout_constraintTop_toTopOf="@+id/findRoomButton"
-        app:layout_constraintVertical_bias="0.176"
-        app:srcCompat="@drawable/baseline_attribution_24" />
-
-    <TextView
-        android:id="@+id/findRoomTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="방 찾기"
-        android:textColor="@color/primary_container_on"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/findRoomButton"
-        app:layout_constraintEnd_toEndOf="@+id/findRoomButton"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toStartOf="@+id/findRoomButton"
-        app:layout_constraintTop_toTopOf="@+id/findRoomButton"
-        app:layout_constraintVertical_bias="0.911" />
-    <!-- [방 찾기] 버튼 끝 부분 -->
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/changeProfileButton"

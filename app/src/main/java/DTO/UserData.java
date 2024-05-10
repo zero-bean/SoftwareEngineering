@@ -1,29 +1,23 @@
 package DTO;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 
-public class UserData implements Serializable {
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor // 파이어베이스는 반드시 빈 생성자를 필요로 합니다.
+public class UserData {
+    @NonNull
     private String UID;
+    @NonNull
     private String nickName;
+    @NonNull
     private String imageURL;
-
-    public UserData() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
-    }
-
-    public UserData(String UID, String nickName, String imageURL) {
-        this.UID = UID;
-        this.nickName = nickName;
-        this.imageURL = imageURL;
-    }
-
-    public void setUID(String UID) { this.UID = UID;}
-    public void setNickName(String nickName) {this.nickName = nickName;}
-    public void setImageURL(String imageURL) {this.imageURL = imageURL;}
-
-    public String getUID() { return UID; }
-    public String getNickName() { return nickName; }
-    public String getImageURL() { return imageURL; }
 
     @Override
     public boolean equals(Object obj) {

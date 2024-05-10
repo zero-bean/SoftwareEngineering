@@ -1,161 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@color/primary_container"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- 배경 디자인 시작 부분 -->
-
-    <View
-        android:id="@+id/view_bottom_0"
-        android:layout_width="375dp"
-        android:layout_height="305dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/rectangle_b"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_mid_1"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <View
-        android:id="@+id/view_mid_0"
+    <FrameLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
-        android:layout_height="157dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/primary_container"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.275" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <View
-        android:id="@+id/view_mid_1"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/rectangle_rounded_1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.419" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_navigation_menu" />
 
-    <View
-        android:id="@+id/view_top_0"
-        android:layout_width="match_parent"
-        android:layout_height="157dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="#196585"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.001" />
-
-    <View
-        android:id="@+id/view_top_1"
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/rectangle_rounded_0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.156" />
-    <!-- 배경 디자인 끝 부분 -->
-
-    <!-- 프로필 영역 시작 부분 -->
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/profileCircularImageView"
-        android:layout_width="172dp"
-        android:layout_height="159dp"
-        android:src="@drawable/default_profile"
-        app:civ_border_color="@color/primary_on"
-        app:civ_border_width="2dp"
-        app:civ_shadow="true"
-        app:civ_shadow_color="#000000"
-        app:civ_shadow_radius="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.027" />
-
-    <!-- 프로필 영역 끝 부분 -->
-
-    <TextView
-        android:id="@+id/profileNameTextView"
-        android:layout_width="273dp"
-        android:layout_height="37dp"
-        android:gravity="center"
-        android:text="GUEST"
-        android:textColor="@color/primary_on"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/view_top_1"
-        app:layout_constraintEnd_toEndOf="@+id/profileCircularImageView"
-        app:layout_constraintStart_toStartOf="@+id/profileCircularImageView"
-        app:layout_constraintTop_toTopOf="@+id/profileCircularImageView"
-        app:layout_constraintVertical_bias="0.897" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/changeProfileButton"
-        android:layout_width="319dp"
-        android:layout_height="66dp"
-        android:background="@drawable/rectangle_bottom_button"
-        android:textColor="@color/primary_on"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:text="프로필 변경"
-        app:layout_constraintBottom_toBottomOf="@+id/view_bottom_0"
-        app:layout_constraintEnd_toEndOf="@+id/view_bottom_0"
-        app:layout_constraintStart_toStartOf="@+id/view_bottom_0"
-        app:layout_constraintTop_toTopOf="@+id/view_bottom_0"
-        app:layout_constraintVertical_bias="0.096" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logoutButton"
-        android:layout_width="319dp"
-        android:layout_height="66dp"
-        android:background="@drawable/rectangle_bottom_button"
-        android:textColor="@color/primary_on"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:text="로그아웃"
-        app:layout_constraintBottom_toBottomOf="@+id/view_bottom_0"
-        app:layout_constraintEnd_toEndOf="@+id/view_bottom_0"
-        app:layout_constraintStart_toStartOf="@+id/view_bottom_0"
-        app:layout_constraintTop_toTopOf="@+id/view_bottom_0" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/enterStoreButton"
-        android:layout_width="319dp"
-        android:layout_height="66dp"
-        android:background="@drawable/rectangle_bottom_button"
-        android:textColor="@color/primary_on"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:text="상점"
-        app:layout_constraintBottom_toBottomOf="@+id/view_bottom_0"
-        app:layout_constraintEnd_toEndOf="@+id/view_bottom_0"
-        app:layout_constraintStart_toStartOf="@+id/view_bottom_0"
-        app:layout_constraintTop_toTopOf="@+id/view_bottom_0"
-        app:layout_constraintVertical_bias="0.891" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

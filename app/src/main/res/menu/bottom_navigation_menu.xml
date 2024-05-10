@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Google material 3에서 지원하는 해당 기능은 최대 5개 item 까지 가능 -->
+<!-- https://github.com/material-components/material-components-android/blob/master/docs/components/BottomNavigation.md -->
+    <item
+        android:id="@+id/navigation_bar_item_1"
+        android:enabled="true"
+        android:icon="@drawable/icon_item_home"
+        android:title="@string/text_label_1"/>
+    <item
+        android:id="@+id/navigation_bar_item_2"
+        android:enabled="true"
+        android:icon="@drawable/icon_item_friend"
+        android:title="@string/text_label_2"/>
+    <item
+        android:id="@+id/navigation_bar_item_3"
+        android:enabled="true"
+        android:icon="@drawable/icon_item_calender"
+        android:title="@string/text_label_3"/>
+    <item
+        android:id="@+id/navigation_bar_item_4"
+        android:enabled="true"
+        android:icon="@drawable/icon_item_alert"
+        android:title="@string/text_label_4"/>
+</menu>

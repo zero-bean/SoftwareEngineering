@@ -18,13 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/loginbackgorund" />
+        app:srcCompat="@drawable/img_background_login" />
 
     <TextView
         android:id="@+id/signInWithGoogle"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:background="@drawable/rectanlge"
+        android:background="@drawable/box_google_login"
         android:gravity="center"
         android:paddingRight="8dp"
         android:text="Sign in with Google"

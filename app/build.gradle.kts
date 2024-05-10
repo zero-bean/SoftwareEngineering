@@ -54,6 +54,10 @@ dependencies {
     // Material Design 3
     implementation ("com.google.android.material:material:1.13.0-alpha01")
 
+    // Lombok
+    implementation ("org.projectlombok:lombok:1.18.32")
+    annotationProcessor ("org.projectlombok:lombok:1.18.32")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

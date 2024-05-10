@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GameLand</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="edit">Edit</string>
+    <string name="favorite">Favorite</string>
+    <string name="more">More</string>
+    <string name="content_description_search">Description for search</string>
+    <string name="content_description_favorite">Description for favorite</string>
+    <string name="content_description_more">Description for more</string>
+
+    <string name="nameLabel">닉네임</string>
+    <string name="title_activity_game_room_list">GameRoomListActivity</string>
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "705602917661",
+    "project_id": "anniversary-e9a74",
+    "storage_bucket": "anniversary-e9a74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705602917661:android:841b6e13de54f1e9897df4",
+        "android_client_info": {
+          "package_name": "com.gcu.anniversary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8LZDv_RlYmStLuzCguoXXgtzFUF9UQaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

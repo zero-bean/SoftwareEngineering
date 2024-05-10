@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- 게임 랜드 컬러 스타일 -->
+    <color name="primary">#196585</color>
+    <color name="primary_on">#ffffff</color>
+    <color name="primary_container">#C2E8FF</color>
+    <color name="primary_container_on">#001E2B</color>
+</resources>

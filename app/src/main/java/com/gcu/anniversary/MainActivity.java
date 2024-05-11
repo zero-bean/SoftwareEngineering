@@ -10,12 +10,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 
+// Single Activty Architecture 구조입니다
 public class MainActivity extends AppCompatActivity {
+    FragmentManager fragmentManager;
     Fragment fragment[];
     BottomNavigationView bottomNavigationView;
 
@@ -24,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        fragmentManager = getSupportFragmentManager();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        // 처음 화면
-        getSupportFragmentManager().beginTransaction().add(R.id.content_layout, new HomeFragment()).commit();
+        // Fragment를 초기화합니다
+        initializeFragments();
 
 
+        // 하단의 네비게이션 바를 통해서 프레그먼트 전환을 관리합니다
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -49,5 +54,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initializeFragments() {
+        fragment = new Fragment[4];
+        fragment[0] = new HomeFragment();
+        fragment[1] = new FriendFragment();
+        fragment[2] = new CalenderFragment();
+        fragment[3] = new AlertFragment();
+
+        fragmentManager.beginTransaction().add(R.id.content_layout, fragment[0]).commit();
     }
 }

@@ -5,7 +5,7 @@
     <!-- bottom_navigation_menu.xml에 사용되는 item의 title 속성 -->
     <string name="text_label_1">Home</string>
     <string name="text_label_2">Friend</string>
-    <string name="text_label_3">Calender</string>
+    <string name="text_label_3">Calendar</string>
     <string name="text_label_4">Alert</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

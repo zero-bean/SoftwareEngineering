@@ -7,4 +7,10 @@
     android:background="@color/primary_container_on"
     tools:context=".AlertFragment">
 
+    <ListView
+        android:id="@+id/alertListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"/>
+
 </FrameLayout>

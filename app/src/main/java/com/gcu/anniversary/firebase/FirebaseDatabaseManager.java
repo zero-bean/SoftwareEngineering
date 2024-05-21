@@ -1,5 +1,7 @@
 package com.gcu.anniversary.firebase;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,15 +27,19 @@ public class FirebaseDatabaseManager {
         anniversaryRef.child(key).setValue(anniversary);
     }
 
-    public void updateAnniversary(AnniversaryData anniversary) {
+    public void updateAnniversary(AnniversaryData anniversary, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
         if (anniversary.getId() != null) {
-            anniversaryRef.child(anniversary.getId()).setValue(anniversary);
+            anniversaryRef.child(anniversary.getId()).setValue(anniversary)
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
         }
     }
 
-    public void deleteAnniversary(String id) {
+    public void deleteAnniversary(String id, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
         if (id != null) {
-            anniversaryRef.child(id).removeValue();
+            anniversaryRef.child(id).removeValue()
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
         }
     }
 
@@ -43,15 +49,19 @@ public class FirebaseDatabaseManager {
         friendRef.child(key).setValue(friend);
     }
 
-    public void updateFriend(FriendData friend) {
+    public void updateFriend(FriendData friend, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
         if (friend.getFriendListId() != null) {
-            friendRef.child(friend.getFriendListId()).setValue(friend);
+            friendRef.child(friend.getFriendListId()).setValue(friend)
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
         }
     }
 
-    public void deleteFriend(String friendListId) {
+    public void deleteFriend(String friendListId, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
         if (friendListId != null) {
-            friendRef.child(friendListId).removeValue();
+            friendRef.child(friendListId).removeValue()
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
         }
     }
 
@@ -61,15 +71,19 @@ public class FirebaseDatabaseManager {
         }
     }
 
-    public void updateUser(UserData user) {
+    public void updateUser(UserData user, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
         if (user.getUID() != null) {
-            userRef.child(user.getUID()).setValue(user);
+            userRef.child(user.getUID()).setValue(user)
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
         }
     }
 
-    public void deleteUser(String uid) {
+    public void deleteUser(String uid, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
         if (uid != null) {
-            userRef.child(uid).removeValue();
+            userRef.child(uid).removeValue()
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
         }
     }
 

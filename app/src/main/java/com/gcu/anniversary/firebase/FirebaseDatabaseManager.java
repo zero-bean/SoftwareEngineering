@@ -7,18 +7,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import DTO.AnniversaryData;
 import DTO.FriendData;
+import DTO.GiftData;
 import DTO.UserData;
 
 public class FirebaseDatabaseManager {
     private DatabaseReference anniversaryRef;
     private DatabaseReference friendRef;
     private DatabaseReference userRef;
+    private DatabaseReference giftRef;
 
     public FirebaseDatabaseManager() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         anniversaryRef = database.getReference("anniversaries");
         friendRef = database.getReference("friends");
         userRef = database.getReference("users");
+        giftRef = database.getReference("gifts");
     }
 
     public void addAnniversary(AnniversaryData anniversary) {
@@ -87,6 +90,28 @@ public class FirebaseDatabaseManager {
         }
     }
 
+    public void addGift(GiftData gift) {
+        String key = giftRef.push().getKey();
+        gift.setGiftID(key);
+        giftRef.child(key).setValue(gift);
+    }
+
+    public void updateGift(GiftData gift, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
+        if (gift.getGiftID() != null) {
+            giftRef.child(gift.getGiftID()).setValue(gift)
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
+        }
+    }
+
+    public void deleteGift(String giftID, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
+        if (giftID != null) {
+            giftRef.child(giftID).removeValue()
+                    .addOnSuccessListener(onSuccessListener)
+                    .addOnFailureListener(onFailureListener);
+        }
+    }
+
     public DatabaseReference getAnniversariesReference() {
         return anniversaryRef;
     }
@@ -97,5 +122,9 @@ public class FirebaseDatabaseManager {
 
     public DatabaseReference getUsersReference() {
         return userRef;
+    }
+
+    public DatabaseReference getGiftsReference() {
+        return giftRef;
     }
 }

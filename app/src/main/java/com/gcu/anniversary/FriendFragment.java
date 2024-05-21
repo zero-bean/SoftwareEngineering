@@ -262,6 +262,7 @@ public class FriendFragment extends Fragment {
         String dDay = calculateDDay(closestAnniversary);
 
         TextView friendInfo = convertView.findViewById(R.id.friendInfo);
+        ImageButton giftButton = convertView.findViewById(R.id.giftButton);
         ImageButton favoriteButton = convertView.findViewById(R.id.favoriteButton);
         ImageButton deleteButton = convertView.findViewById(R.id.deleteButton);
 
@@ -274,10 +275,16 @@ public class FriendFragment extends Fragment {
             friendInfo.setText("Unknown user");
         }
 
+        giftButton.setOnClickListener(v -> showGiftList(friend.getFriendListId()));
         favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendId2()));
         deleteButton.setOnClickListener(v -> deleteFriend(friend.getFriendId2()));
 
         return convertView;
+    }
+
+    private void showGiftList(String friendListId) {
+        GiftListFragment giftListFragment = new GiftListFragment(friendListId);
+        giftListFragment.show(getParentFragmentManager(), "GiftListFragment");
     }
 
     private String calculateDDay(String date) {
@@ -429,6 +436,7 @@ public class FriendFragment extends Fragment {
             String dDay = calculateDDay(closestAnniversary);
 
             TextView friendInfo = convertView.findViewById(R.id.friendInfo);
+            ImageButton giftButton = convertView.findViewById(R.id.giftButton);
             ImageButton favoriteButton = convertView.findViewById(R.id.favoriteButton);
             ImageButton deleteButton = convertView.findViewById(R.id.deleteButton);
 
@@ -441,6 +449,7 @@ public class FriendFragment extends Fragment {
                 friendInfo.setText("Unknown user");
             }
 
+            giftButton.setOnClickListener(v -> showGiftList(friend.getFriendListId()));
             favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendId2()));
             deleteButton.setOnClickListener(v -> deleteFriend(friend.getFriendId2()));
 

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -5,24 +6,18 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/friendInfo"
+        android:id="@+id/giftInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Friend Info"
-        android:textSize="16sp" />
+        android:text="Gift Info"
+        android:textSize="22sp" />
 
     <ImageButton
-        android:id="@+id/giftButton"
+        android:id="@+id/editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_gift" />
-
-    <ImageButton
-        android:id="@+id/favoriteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_favorite" />
+        android:src="@drawable/ic_edit" />
 
     <ImageButton
         android:id="@+id/deleteButton"

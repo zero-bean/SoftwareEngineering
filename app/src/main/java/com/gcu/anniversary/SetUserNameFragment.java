@@ -22,13 +22,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SetUserNameFragment extends Fragment {
-    private static final String ARG_IS_UPDATE = "is_update";
+    private static final String ARG_IS_UPDATE = "is_update"; // 업데이트 여부를 나타내는 상수
 
-    private EditText userNameEditText;
-    private Button saveButton;
-    private DatabaseReference userRef;
-    private boolean isUpdate;
+    private EditText userNameEditText; // 사용자 이름 입력 필드
+    private Button saveButton; // 저장 버튼
+    private DatabaseReference userRef; // Firebase 데이터베이스 참조
+    private boolean isUpdate; // 업데이트 여부
 
+    // 새로운 인스턴스를 생성하는 메서드
     public static SetUserNameFragment newInstance(boolean isUpdate) {
         SetUserNameFragment fragment = new SetUserNameFragment();
         Bundle args = new Bundle();
@@ -41,23 +42,23 @@ public class SetUserNameFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            isUpdate = getArguments().getBoolean(ARG_IS_UPDATE);
+            isUpdate = getArguments().getBoolean(ARG_IS_UPDATE); // 인자에서 업데이트 여부를 가져옴
         }
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_set_username, container, false);
+        View view = inflater.inflate(R.layout.fragment_set_username, container, false); // 레이아웃 인플레이트
 
-        userNameEditText = view.findViewById(R.id.userNameEditText);
-        saveButton = view.findViewById(R.id.saveButton);
+        userNameEditText = view.findViewById(R.id.userNameEditText); // 사용자 이름 입력 필드 초기화
+        saveButton = view.findViewById(R.id.saveButton); // 저장 버튼 초기화
 
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid(); // 현재 사용자 ID 가져오기
+        userRef = FirebaseDatabase.getInstance().getReference("users").child(userId); // 사용자 데이터베이스 참조 초기화
 
         if (isUpdate) {
-            fetchCurrentUserName();
+            fetchCurrentUserName(); // 업데이트 모드일 경우 현재 사용자 이름 가져오기
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -67,21 +68,22 @@ public class SetUserNameFragment extends Fragment {
                 if (TextUtils.isEmpty(userName)) {
                     Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_SHORT).show();
                 } else {
-                    checkUserNameExists(userName);
+                    checkUserNameExists(userName); // 사용자 이름 존재 여부 확인
                 }
             }
         });
 
-        return view;
+        return view; // 뷰 반환
     }
 
+    // 현재 사용자 이름을 가져오는 메서드
     private void fetchCurrentUserName() {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String currentUserName = dataSnapshot.child("userName").getValue(String.class);
                 if (currentUserName != null) {
-                    userNameEditText.setText(currentUserName);
+                    userNameEditText.setText(currentUserName); // 현재 사용자 이름 설정
                 }
             }
 
@@ -92,6 +94,7 @@ public class SetUserNameFragment extends Fragment {
         });
     }
 
+    // 사용자 이름이 존재하는지 확인하는 메서드
     private void checkUserNameExists(String userName) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
         usersRef.orderByChild("userName").equalTo(userName)
@@ -101,7 +104,7 @@ public class SetUserNameFragment extends Fragment {
                         if (dataSnapshot.exists()) {
                             Toast.makeText(getContext(), "Username already exists. Please choose another name.", Toast.LENGTH_SHORT).show();
                         } else {
-                            saveUserName(userName);
+                            saveUserName(userName); // 사용자 이름 저장
                         }
                     }
 
@@ -112,21 +115,23 @@ public class SetUserNameFragment extends Fragment {
                 });
     }
 
+    // 사용자 이름을 저장하는 메서드
     private void saveUserName(String userName) {
         userRef.child("userName").setValue(userName)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Username saved successfully", Toast.LENGTH_SHORT).show();
-                        navigateToHomeFragment();
+                        navigateToHomeFragment(); // 저장 성공 시 홈 프래그먼트로 이동
                     } else {
                         Toast.makeText(getContext(), "Failed to save username", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+    // 홈 프래그먼트로 이동하는 메서드
     private void navigateToHomeFragment() {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, new HomeFragment());
+        transaction.replace(R.id.fragment_container, new HomeFragment()); // 홈 프래그먼트로 교체
         transaction.addToBackStack(null);
         transaction.commit();
     }

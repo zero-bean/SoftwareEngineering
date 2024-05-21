@@ -42,6 +42,7 @@ public class AddFriendFragment extends DialogFragment {
     private TextView noResultsTextView;
     private FriendAddedListener friendAddedListener;
 
+    // 생성자: 친구 추가 리스너를 인자로 받음
     public AddFriendFragment(FriendAddedListener friendAddedListener) {
         this.friendAddedListener = friendAddedListener;
     }
@@ -51,6 +52,7 @@ public class AddFriendFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_friend, container, false);
 
+        // 뷰 및 데이터베이스 매니저 초기화
         databaseManager = new FirebaseDatabaseManager();
         searchEditText = view.findViewById(R.id.searchEditText);
         searchButton = view.findViewById(R.id.searchButton);
@@ -62,6 +64,7 @@ public class AddFriendFragment extends DialogFragment {
         searchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, searchResults);
         searchListView.setAdapter(searchAdapter);
 
+        // 검색 버튼 클릭 리스너 설정
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +72,7 @@ public class AddFriendFragment extends DialogFragment {
             }
         });
 
+        // 검색 결과 아이템 클릭 리스너 설정
         searchListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedUserName = searchResults.get(position);
             String friendUID = searchResultsMap.get(selectedUserName);
@@ -82,6 +86,7 @@ public class AddFriendFragment extends DialogFragment {
         return view;
     }
 
+    // 친구 검색 메서드
     private void searchFriends() {
         String userName = searchEditText.getText().toString().trim();
         if (userName.isEmpty()) {
@@ -89,6 +94,7 @@ public class AddFriendFragment extends DialogFragment {
             return;
         }
 
+        // Firebase에서 사용자 이름으로 검색
         databaseManager.getUsersReference().orderByChild("userName").equalTo(userName)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -112,11 +118,12 @@ public class AddFriendFragment extends DialogFragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle error
+                        // 에러 처리
                     }
                 });
     }
 
+    // 친구 추가 메서드
     private void addFriend(String friendUID) {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (currentUserId == null) {
@@ -125,6 +132,7 @@ public class AddFriendFragment extends DialogFragment {
 
         DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("friends");
 
+        // 현재 사용자와 이미 친구 관계인지 확인
         friendsRef.orderByChild("friendId1").equalTo(currentUserId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -146,6 +154,7 @@ public class AddFriendFragment extends DialogFragment {
                                 return;
                             }
 
+                            // 새로운 친구 데이터 생성 및 Firebase에 추가
                             FriendData friendData = new FriendData(friendListId, currentUserId, friendUID, false);
                             friendsRef.child(friendListId).setValue(friendData)
                                     .addOnCompleteListener(task -> {
@@ -169,6 +178,7 @@ public class AddFriendFragment extends DialogFragment {
                 });
     }
 
+    // 친구 추가 리스너 인터페이스 정의
     public interface FriendAddedListener {
         void onFriendAdded();
     }

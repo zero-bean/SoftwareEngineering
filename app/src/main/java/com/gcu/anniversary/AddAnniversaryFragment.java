@@ -32,10 +32,12 @@ public class AddAnniversaryFragment extends DialogFragment {
     private AnniversaryData anniversaryData;
     private OnAnniversaryUpdatedListener onAnniversaryUpdatedListener;
 
+    // 기념일 업데이트 리스너 인터페이스 정의
     public interface OnAnniversaryUpdatedListener {
         void onAnniversaryUpdated();
     }
 
+    // AddAnniversaryFragment 인스턴스 생성 메서드
     public static AddAnniversaryFragment newInstance(AnniversaryData anniversary, OnAnniversaryUpdatedListener listener) {
         AddAnniversaryFragment fragment = new AddAnniversaryFragment();
         fragment.setOnAnniversaryUpdatedListener(listener);
@@ -45,6 +47,7 @@ public class AddAnniversaryFragment extends DialogFragment {
         return fragment;
     }
 
+    // 기념일 업데이트 리스너 설정 메서드
     public void setOnAnniversaryUpdatedListener(OnAnniversaryUpdatedListener listener) {
         this.onAnniversaryUpdatedListener = listener;
     }
@@ -54,11 +57,13 @@ public class AddAnniversaryFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_anniversary, container, false);
 
+        // 데이터베이스 매니저 및 뷰 초기화
         databaseManager = new FirebaseDatabaseManager();
         commentEditText = view.findViewById(R.id.commentEditText);
         dateButton = view.findViewById(R.id.dateButton);
         addButton = view.findViewById(R.id.addButton);
 
+        // 전달된 기념일 데이터가 있는 경우 뷰에 설정
         if (getArguments() != null) {
             anniversaryData = (AnniversaryData) getArguments().getSerializable(ARG_ANNIVERSARY);
             if (anniversaryData != null) {
@@ -69,6 +74,7 @@ public class AddAnniversaryFragment extends DialogFragment {
             }
         }
 
+        // 날짜 버튼 클릭 시 날짜 선택 다이얼로그 표시
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +82,7 @@ public class AddAnniversaryFragment extends DialogFragment {
             }
         });
 
+        // 추가/업데이트 버튼 클릭 시 기념일 추가 또는 업데이트
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +97,7 @@ public class AddAnniversaryFragment extends DialogFragment {
         return view;
     }
 
+    // 날짜 선택 다이얼로그 표시 메서드
     private void showDatePickerDialog() {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -106,6 +114,7 @@ public class AddAnniversaryFragment extends DialogFragment {
         datePickerDialog.show();
     }
 
+    // 기념일 추가 메서드
     private void addAnniversary() {
         String comment = commentEditText.getText().toString().trim();
         if (comment.isEmpty()) {
@@ -141,6 +150,7 @@ public class AddAnniversaryFragment extends DialogFragment {
                 .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to add anniversary", Toast.LENGTH_SHORT).show());
     }
 
+    // 기념일 업데이트 메서드
     private void updateAnniversary() {
         String comment = commentEditText.getText().toString().trim();
         if (comment.isEmpty()) {

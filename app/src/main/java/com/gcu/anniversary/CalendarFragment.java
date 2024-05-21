@@ -35,16 +35,17 @@ import java.util.Locale;
 import DTO.AnniversaryData;
 
 public class CalendarFragment extends Fragment implements AddAnniversaryFragment.OnAnniversaryUpdatedListener {
-    private FirebaseDatabaseManager databaseManager;
-    private ListView anniversaryListView;
-    private AnniversaryAdapter anniversaryAdapter;
-    private List<AnniversaryData> anniversaryDataList;
-    private ValueEventListener anniversaryEventListener;
+    private FirebaseDatabaseManager databaseManager; // Firebase 데이터베이스 매니저
+    private ListView anniversaryListView; // 기념일 목록을 표시하는 ListView
+    private AnniversaryAdapter anniversaryAdapter; // 기념일 목록 어댑터
+    private List<AnniversaryData> anniversaryDataList; // 기념일 데이터 리스트
+    private ValueEventListener anniversaryEventListener; // 기념일 이벤트 리스너
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        // 초기화 작업
         databaseManager = new FirebaseDatabaseManager();
         anniversaryListView = view.findViewById(R.id.calendarListView);
 
@@ -54,7 +55,7 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
 
         fetchAnniversaries();
 
-        // Set toolbar with menu
+        // 툴바 설정 및 메뉴 아이템 클릭 리스너 설정
         Toolbar toolbar = view.findViewById(R.id.toolbar_anniversary);
         toolbar.inflateMenu(R.menu.anniversary_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -71,6 +72,7 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
         return view;
     }
 
+    // 기념일 데이터를 가져오는 메서드
     private void fetchAnniversaries() {
         String userId = getCurrentUserId();
         if (userId == null) {
@@ -78,10 +80,12 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
             return;
         }
 
+        // 이전 리스너 제거
         if (anniversaryEventListener != null) {
             databaseManager.getAnniversariesReference().removeEventListener(anniversaryEventListener);
         }
 
+        // 새 리스너 설정
         anniversaryEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -102,10 +106,12 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
             }
         };
 
+        // 기념일 데이터를 사용자 ID로 정렬하여 가져옴
         databaseManager.getAnniversariesReference().orderByChild("userId").equalTo(userId)
                 .addValueEventListener(anniversaryEventListener);
     }
 
+    // 기념일 데이터를 날짜순으로 정렬하는 메서드
     private void sortAnniversariesByDate() {
         Collections.sort(anniversaryDataList, new Comparator<AnniversaryData>() {
             @Override
@@ -123,25 +129,30 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
         });
     }
 
+    // 기념일 수정 다이얼로그를 표시하는 메서드
     private void showEditAnniversaryDialog(final AnniversaryData anniversary) {
         AddAnniversaryFragment addAnniversaryFragment = AddAnniversaryFragment.newInstance(anniversary, this);
         addAnniversaryFragment.show(getParentFragmentManager(), "AddAnniversaryFragment");
     }
 
+    // 기념일 추가 다이얼로그를 표시하는 메서드
     private void showAddAnniversaryDialog() {
         AddAnniversaryFragment addAnniversaryFragment = AddAnniversaryFragment.newInstance(null, this);
         addAnniversaryFragment.show(getParentFragmentManager(), "AddAnniversaryFragment");
     }
 
+    // 현재 사용자 ID를 가져오는 메서드
     private String getCurrentUserId() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
+    // 기념일이 업데이트될 때 호출되는 메서드
     @Override
     public void onAnniversaryUpdated() {
         fetchAnniversaries();
     }
 
+    // 기념일 목록 어댑터 클래스
     private class AnniversaryAdapter extends BaseAdapter {
         private List<AnniversaryData> anniversaryList;
 
@@ -171,6 +182,7 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.anniversary_list_item, parent, false);
             }
 
+            // 기념일 정보 설정
             TextView dateTextView = convertView.findViewById(R.id.dateTextView);
             TextView commentTextView = convertView.findViewById(R.id.commentTextView);
             ImageButton editButton = convertView.findViewById(R.id.editButton);
@@ -180,6 +192,7 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
             dateTextView.setText(anniversary.getDate());
             commentTextView.setText(anniversary.getComment());
 
+            // 수정 버튼 클릭 리스너 설정
             editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -187,6 +200,7 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
                 }
             });
 
+            // 삭제 버튼 클릭 리스너 설정
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -197,6 +211,7 @@ public class CalendarFragment extends Fragment implements AddAnniversaryFragment
             return convertView;
         }
 
+        // 기념일을 삭제하는 메서드
         private void deleteAnniversary(AnniversaryData anniversary) {
             databaseManager.deleteAnniversary(anniversary.getId(), aVoid -> {
                 anniversaryList.remove(anniversary);

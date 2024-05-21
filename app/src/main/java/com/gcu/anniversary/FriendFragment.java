@@ -270,6 +270,8 @@ public class FriendFragment extends Fragment {
                     (closestAnniversary != null ? " - " + closestAnniversary : "") +
                     (dDay != null ? " D-" + dDay : "");
             friendInfo.setText(displayText);
+        } else {
+            friendInfo.setText("Unknown user");
         }
 
         favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendId2()));
@@ -435,6 +437,8 @@ public class FriendFragment extends Fragment {
                         (closestAnniversary != null ? " - " + closestAnniversary : "") +
                         (dDay != null ? " D-" + dDay : "");
                 friendInfo.setText(displayText);
+            } else {
+                friendInfo.setText("Unknown user");
             }
 
             favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendId2()));

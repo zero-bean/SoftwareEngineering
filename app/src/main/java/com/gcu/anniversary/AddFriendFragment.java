@@ -24,7 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import DTO.FriendData;
 import DTO.UserData;
@@ -35,6 +37,7 @@ public class AddFriendFragment extends DialogFragment {
     private Button searchButton;
     private ListView searchListView;
     private List<String> searchResults;
+    private Map<String, String> searchResultsMap; // 사용자 이름과 UID를 매핑하는 Map
     private ArrayAdapter<String> searchAdapter;
     private TextView noResultsTextView;
     private FriendAddedListener friendAddedListener;
@@ -55,6 +58,7 @@ public class AddFriendFragment extends DialogFragment {
         noResultsTextView = view.findViewById(R.id.noResultsTextView);
 
         searchResults = new ArrayList<>();
+        searchResultsMap = new HashMap<>();
         searchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, searchResults);
         searchListView.setAdapter(searchAdapter);
 
@@ -66,8 +70,13 @@ public class AddFriendFragment extends DialogFragment {
         });
 
         searchListView.setOnItemClickListener((parent, view1, position, id) -> {
-            String selectedUser = searchResults.get(position);
-            addFriend(selectedUser);
+            String selectedUserName = searchResults.get(position);
+            String friendUID = searchResultsMap.get(selectedUserName);
+            if (friendUID != null) {
+                addFriend(friendUID);
+            } else {
+                Toast.makeText(getContext(), "Invalid user selection", Toast.LENGTH_SHORT).show();
+            }
         });
 
         return view;
@@ -85,12 +94,14 @@ public class AddFriendFragment extends DialogFragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         searchResults.clear();
+                        searchResultsMap.clear();
                         if (dataSnapshot.exists()) {
                             noResultsTextView.setVisibility(View.GONE);
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 UserData user = snapshot.getValue(UserData.class);
                                 if (user != null) {
-                                    searchResults.add(user.getUserName() + " (" + user.getUID() + ")");
+                                    searchResults.add(user.getUserName());
+                                    searchResultsMap.put(user.getUserName(), user.getUID());
                                 }
                             }
                         } else {
@@ -106,33 +117,54 @@ public class AddFriendFragment extends DialogFragment {
                 });
     }
 
-    private void addFriend(String selectedUser) {
-        String[] parts = selectedUser.split(" ");
-        String friendUserName = parts[0];
-        String friendUID = parts[1].substring(1, parts[1].length() - 1); // Remove parentheses
-
+    private void addFriend(String friendUID) {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (currentUserId == null) {
             return;
         }
 
         DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("friends");
-        String friendListId = friendsRef.push().getKey();
-        if (friendListId == null) {
-            return;
-        }
 
-        FriendData friendData = new FriendData(friendListId, currentUserId, friendUID, false);
-        friendsRef.child(friendListId).setValue(friendData)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getContext(), "Friend added successfully", Toast.LENGTH_SHORT).show();
-                        dismiss();
-                        if (friendAddedListener != null) {
-                            friendAddedListener.onFriendAdded();
+        friendsRef.orderByChild("friendId1").equalTo(currentUserId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        boolean alreadyFriend = false;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            FriendData friendData = snapshot.getValue(FriendData.class);
+                            if (friendData != null && friendData.getFriendId2().equals(friendUID)) {
+                                alreadyFriend = true;
+                                break;
+                            }
                         }
-                    } else {
-                        Toast.makeText(getContext(), "Failed to add friend", Toast.LENGTH_SHORT).show();
+
+                        if (alreadyFriend) {
+                            Toast.makeText(getContext(), "This user is already your friend", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String friendListId = friendsRef.push().getKey();
+                            if (friendListId == null) {
+                                return;
+                            }
+
+                            FriendData friendData = new FriendData(friendListId, currentUserId, friendUID, false);
+                            friendsRef.child(friendListId).setValue(friendData)
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getContext(), "Friend added successfully", Toast.LENGTH_SHORT).show();
+                                            dismiss();
+                                            if (friendAddedListener != null) {
+                                                friendAddedListener.onFriendAdded();
+                                            }
+                                        } else {
+                                            Toast.makeText(getContext(), "Failed to add friend", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getContext(), "Failed to check friend list", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

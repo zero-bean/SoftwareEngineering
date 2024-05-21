@@ -1,5 +1,7 @@
 package DTO;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnniversaryData {
+public class AnniversaryData implements Serializable {
     private String id;
     private String userId;
     private String date;

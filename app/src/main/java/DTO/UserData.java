@@ -1,6 +1,7 @@
 package DTO;
 
 import java.util.List;
+import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,5 +37,10 @@ public class UserData {
         return UID.equals(userData.UID) &&
                 nickName.equals(userData.nickName) &&
                 imageURL.equals(userData.imageURL);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(UID, nickName, imageURL);
     }
 }

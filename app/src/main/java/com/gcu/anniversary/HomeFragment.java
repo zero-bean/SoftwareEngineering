@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment {
         String displayName = currentUser.getDisplayName();
         String photoUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
 
-        UserData tmp = new UserData(userUID, displayName, photoUrl, null);
+        UserData tmp = new UserData(userUID, displayName, photoUrl, null,null);
         userRef.setValue(tmp);
         navigateToSetUserNameFragment();
     }

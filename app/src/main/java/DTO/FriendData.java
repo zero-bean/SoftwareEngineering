@@ -12,8 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FriendData {
-    private String friendListId;
-    private String friendId1;
-    private String friendId2;
+    private String friendUid;
     private boolean isFavorite;
 }

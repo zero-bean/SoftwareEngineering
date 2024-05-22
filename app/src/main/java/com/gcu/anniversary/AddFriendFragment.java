@@ -130,17 +130,16 @@ public class AddFriendFragment extends DialogFragment {
             return;
         }
 
-        DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("friends");
+        DatabaseReference friendsRef = databaseManager.getFriendsReference();
 
         // 현재 사용자와 이미 친구 관계인지 확인
-        friendsRef.orderByChild("friendId1").equalTo(currentUserId)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+        friendsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         boolean alreadyFriend = false;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             FriendData friendData = snapshot.getValue(FriendData.class);
-                            if (friendData != null && friendData.getFriendId2().equals(friendUID)) {
+                            if (friendData != null && friendData.getFriendUid().equals(friendUID)) {
                                 alreadyFriend = true;
                                 break;
                             }
@@ -155,8 +154,8 @@ public class AddFriendFragment extends DialogFragment {
                             }
 
                             // 새로운 친구 데이터 생성 및 Firebase에 추가
-                            FriendData friendData = new FriendData(friendListId, currentUserId, friendUID, false);
-                            friendsRef.child(friendListId).setValue(friendData)
+                            FriendData friendData = new FriendData(friendUID, false);
+                            friendsRef.push().setValue(friendData)
                                     .addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getContext(), "Friend added successfully", Toast.LENGTH_SHORT).show();

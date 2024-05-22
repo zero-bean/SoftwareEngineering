@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -20,6 +22,7 @@ public class UserData {
     @NonNull
     private String imageURL;
     private String userName;
+    private List<FriendData> friendList;
 
     @Override
     public boolean equals(Object obj) {

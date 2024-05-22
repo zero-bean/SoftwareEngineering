@@ -5,6 +5,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 import DTO.AnniversaryData;
 import DTO.FriendData;
 import DTO.GiftData;
@@ -20,8 +22,8 @@ public class FirebaseDatabaseManager {
     public FirebaseDatabaseManager() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         anniversaryRef = database.getReference("anniversaries"); // 기념일 데이터베이스 참조
-        friendRef = database.getReference("friends"); // 친구 데이터베이스 참조
         userRef = database.getReference("users"); // 사용자 데이터베이스 참조
+        friendRef = userRef.child("friendList"); // 친구 데이터베이스 참조
         giftRef = database.getReference("gifts"); // 선물 데이터베이스 참조
     }
 
@@ -52,17 +54,21 @@ public class FirebaseDatabaseManager {
 
     // 친구 데이터 추가
     public void addFriend(FriendData friend) {
-        String key = friendRef.push().getKey();
-        friend.setFriendListId(key);
-        friendRef.child(key).setValue(friend);
+        //String key = friendRef.push().getKey();
+        //friend.setFriendListId(key);
+        //friendRef.child(key).setValue(friend);
     }
 
     // 친구 데이터 업데이트
-    public void updateFriend(FriendData friend, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
-        if (friend.getFriendListId() != null) {
-            friendRef.child(friend.getFriendListId()).setValue(friend)
-                    .addOnSuccessListener(onSuccessListener)
-                    .addOnFailureListener(onFailureListener);
+    public void updateFriend(List<FriendData> friendDataList, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
+        if (friendDataList != null) {
+            friendRef.setValue(friendDataList);
+        }
+    }
+
+    public void updateFriend(FriendData friendData, OnSuccessListener<Void> onSuccessListener, OnFailureListener onFailureListener) {
+        if (friendData != null) {
+            friendRef.push().setValue(friendData);
         }
     }
 

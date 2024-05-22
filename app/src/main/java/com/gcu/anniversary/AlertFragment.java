@@ -92,7 +92,7 @@ public class AlertFragment extends Fragment {
 
     private boolean isFriendAnniversary(String userId) {
         for (FriendData friend : friendsList) {
-            if (friend.getFriendId1().equals(userId) || friend.getFriendId2().equals(userId)) {
+            if (friend.getFriendUid().equals(userId)) {
                 return true;
             }
         }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -108,8 +107,7 @@ public class FriendFragment extends Fragment {
         }
 
         // Firebase에서 친구 데이터 가져오기
-        databaseManager.getFriendsReference().orderByChild("friendId1").equalTo(userId)
-                .addValueEventListener(new ValueEventListener() {
+        databaseManager.getFriendsReference().addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         favoriteFriendDataList.clear();
@@ -125,7 +123,7 @@ public class FriendFragment extends Fragment {
                                 } else {
                                     friendDataList.add(friend);
                                 }
-                                fetchUserDetails(friend.getFriendId2()); // 친구의 사용자 정보 가져오기
+                                fetchUserDetails(friend.getFriendUid()); // 친구의 사용자 정보 가져오기
                             }
                         }
                     }
@@ -186,8 +184,8 @@ public class FriendFragment extends Fragment {
         Comparator<FriendData> comparator = new Comparator<FriendData>() {
             @Override
             public int compare(FriendData o1, FriendData o2) {
-                Date date1 = getClosestAnniversaryDate(o1.getFriendId2());
-                Date date2 = getClosestAnniversaryDate(o2.getFriendId2());
+                Date date1 = getClosestAnniversaryDate(o1.getFriendUid());
+                Date date2 = getClosestAnniversaryDate(o2.getFriendUid());
                 boolean isDate1Past = isDatePast(date1);
                 boolean isDate2Past = isDatePast(date2);
 
@@ -270,8 +268,8 @@ public class FriendFragment extends Fragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View convertView = inflater.inflate(R.layout.friend_list_item, favoriteFriendContainer, false);
 
-        UserData user = getUserData(friend.getFriendId2());
-        String closestAnniversary = getClosestAnniversary(friend.getFriendId2());
+        UserData user = getUserData(friend.getFriendUid());
+        String closestAnniversary = getClosestAnniversary(friend.getFriendUid());
         String dDay = calculateDDay(closestAnniversary);
 
         TextView friendInfo = convertView.findViewById(R.id.friendInfo);
@@ -288,9 +286,9 @@ public class FriendFragment extends Fragment {
             friendInfo.setText("Unknown user");
         }
 
-        giftButton.setOnClickListener(v -> showGiftList(friend.getFriendListId())); // 선물 목록 표시
-        favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendId2())); // 즐겨찾기 토글
-        deleteButton.setOnClickListener(v -> deleteFriend(friend.getFriendId2())); // 친구 삭제
+        giftButton.setOnClickListener(v -> showGiftList(friend.getFriendUid())); // 선물 목록 표시
+        favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendUid())); // 즐겨찾기 토글
+        deleteButton.setOnClickListener(v -> deleteFriend(friend.getFriendUid())); // 친구 삭제
 
         return convertView;
     }
@@ -381,7 +379,7 @@ public class FriendFragment extends Fragment {
     // 즐겨찾기 상태를 토글하는 메서드
     private void toggleFavorite(String friendId) {
         for (FriendData friend : favoriteFriendDataList) {
-            if (friend.getFriendId2().equals(friendId)) {
+            if (friend.getFriendUid().equals(friendId)) {
                 friend.setFavorite(!friend.isFavorite());
                 databaseManager.updateFriend(friend, aVoid -> {
                     sortAndDisplayFriends();
@@ -393,7 +391,7 @@ public class FriendFragment extends Fragment {
         }
 
         for (FriendData friend : friendDataList) {
-            if (friend.getFriendId2().equals(friendId)) {
+            if (friend.getFriendUid().equals(friendId)) {
                 friend.setFavorite(!friend.isFavorite());
                 databaseManager.updateFriend(friend, aVoid -> {
                     sortAndDisplayFriends();
@@ -408,8 +406,8 @@ public class FriendFragment extends Fragment {
     // 친구를 삭제하는 메서드
     private void deleteFriend(String friendId) {
         for (FriendData friend : favoriteFriendDataList) {
-            if (friend.getFriendId2().equals(friendId)) {
-                databaseManager.deleteFriend(friend.getFriendListId(), aVoid -> {
+            if (friend.getFriendUid().equals(friendId)) {
+                databaseManager.deleteFriend(friend.getFriendUid(), aVoid -> {
                     favoriteFriendDataList.remove(friend);
                     sortAndDisplayFriends();
                 }, e -> {
@@ -420,8 +418,8 @@ public class FriendFragment extends Fragment {
         }
 
         for (FriendData friend : friendDataList) {
-            if (friend.getFriendId2().equals(friendId)) {
-                databaseManager.deleteFriend(friend.getFriendListId(), aVoid -> {
+            if (friend.getFriendUid().equals(friendId)) {
+                databaseManager.deleteFriend(friend.getFriendUid(), aVoid -> {
                     friendDataList.remove(friend);
                     sortAndDisplayFriends();
                 }, e -> {
@@ -453,8 +451,8 @@ public class FriendFragment extends Fragment {
             }
 
             FriendData friend = friends.get(position);
-            UserData user = getUserData(friend.getFriendId2());
-            String closestAnniversary = getClosestAnniversary(friend.getFriendId2());
+            UserData user = getUserData(friend.getFriendUid());
+            String closestAnniversary = getClosestAnniversary(friend.getFriendUid());
             String dDay = calculateDDay(closestAnniversary);
 
             TextView friendInfo = convertView.findViewById(R.id.friendInfo);
@@ -471,9 +469,9 @@ public class FriendFragment extends Fragment {
                 friendInfo.setText("Unknown user");
             }
 
-            giftButton.setOnClickListener(v -> showGiftList(friend.getFriendListId())); // 선물 목록 표시
-            favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendId2())); // 즐겨찾기 토글
-            deleteButton.setOnClickListener(v -> deleteFriend(friend.getFriendId2())); // 친구 삭제
+            giftButton.setOnClickListener(v -> showGiftList(friend.getFriendUid())); // 선물 목록 표시
+            favoriteButton.setOnClickListener(v -> toggleFavorite(friend.getFriendUid())); // 즐겨찾기 토글
+            deleteButton.setOnClickListener(v -> deleteFriend(friend.getFriendUid())); // 친구 삭제
 
             return convertView;
         }

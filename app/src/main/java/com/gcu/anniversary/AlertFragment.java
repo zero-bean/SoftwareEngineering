@@ -1,7 +1,5 @@
 package com.gcu.anniversary;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,17 +44,6 @@ public class AlertFragment extends Fragment {
         friendsList = new ArrayList<>();
 
         fetchFriends();
-
-        TextView emailTextview = view.findViewById(R.id.emailTextview);
-        emailTextview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sample@gmail.com",null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT,"Subject Here");
-                emailIntent.putExtra(Intent.EXTRA_TEXT,"Body Here");
-                startActivity(Intent.createChooser(emailIntent,"Send email..."));
-            }
-        });
 
         return view;
     }
